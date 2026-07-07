@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>山海经 · 妖兽图鉴</title>
+  <link rel="icon" href="data:," />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet" />
@@ -23,14 +24,21 @@
     </div>
   </header>
 
-  <!-- 地图主区 -->
+  <!-- 地图主区（全屏，可缩放拖动） -->
   <main class="map-wrap">
     <div class="map-stage" id="map-stage">
-      <div class="map-bg" id="map-bg"></div>
-      <svg class="map-lines" id="map-lines" viewBox="0 0 100 100" preserveAspectRatio="none"></svg>
-      <div class="nodes" id="nodes"></div>
+      <div class="map-viewport" id="map-viewport">
+        <div class="map-bg" id="map-bg"></div>
+        <svg class="map-lines" id="map-lines" viewBox="0 0 100 100" preserveAspectRatio="none"></svg>
+        <div class="nodes" id="nodes"></div>
+      </div>
+      <p class="hint" id="hint">你立于昆仑·中土。择一方向，踏上寻妖之路。</p>
+      <div class="map-controls" id="map-controls">
+        <button class="ctrl-btn" id="zoom-in" title="放大" aria-label="放大">＋</button>
+        <button class="ctrl-btn" id="zoom-out" title="缩小" aria-label="缩小">－</button>
+        <button class="ctrl-btn" id="zoom-reset" title="复位全图" aria-label="复位全图">⤢</button>
+      </div>
     </div>
-    <p class="hint" id="hint">你立于昆仑·中土。择一方向，踏上寻妖之路。</p>
   </main>
 
   <!-- 传闻弹层 -->

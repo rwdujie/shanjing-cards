@@ -20,8 +20,9 @@ html, body {
   color: var(--text);
   font-family: "Noto Serif SC", "Songti SC", "STSong", serif;
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+  overflow: hidden;
 }
+body { display: flex; flex-direction: column; }
 
 /* 顶部栏 */
 .topbar {
@@ -71,23 +72,28 @@ html, body {
 }
 .ghost-btn:hover { background: rgba(200,164,92,0.15); box-shadow: 0 0 10px rgba(200,164,92,0.3); }
 
-/* 地图 */
-.map-wrap { display: flex; flex-direction: column; align-items: center; padding: 18px 12px 40px; }
+/* 地图（全屏） */
+.map-wrap { position: relative; flex: 1; min-height: 0; overflow: hidden; }
 .map-stage {
-  position: relative;
-  width: min(900px, 96vw);
-  aspect-ratio: 1 / 1;
-  border: 1px solid var(--gold);
-  border-radius: 10px;
+  position: absolute; inset: 0;
   overflow: hidden;
-  box-shadow: 0 0 30px rgba(0,0,0,0.7), inset 0 0 40px rgba(0,0,0,0.6);
+  cursor: grab;
+  touch-action: none;
   background: #0a0a0c;
+}
+.map-stage.grabbing { cursor: grabbing; }
+.map-viewport {
+  position: absolute; top: 0; left: 0;
+  transform-origin: 0 0;
+  will-change: transform;
 }
 .map-bg {
   position: absolute; inset: 0;
   background-size: cover;
   background-position: center;
   opacity: 0.92;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 .map-lines { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 .nodes { position: absolute; inset: 0; }
@@ -137,13 +143,40 @@ html, body {
 }
 
 .hint {
-  margin-top: 16px;
+  position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%);
+  margin: 0; width: max-content; max-width: 90%;
   color: var(--muted);
   font-size: 14px;
   text-align: center;
-  max-width: 600px;
   letter-spacing: 1px;
+  background: rgba(0,0,0,0.45);
+  padding: 6px 16px; border-radius: 20px;
+  border: 1px solid var(--line);
+  z-index: 10;
+  pointer-events: none;
 }
+
+/* 缩放 / 拖动 控制 */
+.map-controls {
+  position: absolute; right: 16px; bottom: 16px;
+  display: flex; flex-direction: column; gap: 10px;
+  z-index: 15;
+}
+.ctrl-btn {
+  width: 44px; height: 44px; border-radius: 50%;
+  border: 1px solid var(--gold);
+  background: rgba(13,13,15,0.72);
+  color: var(--gold-light);
+  font-size: 22px; line-height: 1;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(4px);
+  transition: all .2s;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+.ctrl-btn:hover { background: rgba(200,164,92,0.18); box-shadow: 0 0 12px rgba(200,164,92,0.35); }
+.ctrl-btn:active { transform: scale(0.94); }
 
 /* 弹层 */
 .overlay {
@@ -313,7 +346,7 @@ html, body {
 
 @media (max-width: 480px) {
   .brand-text { font-size: 20px; }
-  .map-stage { width: 94vw; }
   .panel { padding: 20px 16px; }
   .codex-grid { grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); }
+  .ctrl-btn { width: 40px; height: 40px; font-size: 20px; }
 }

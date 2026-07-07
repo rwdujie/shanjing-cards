@@ -122,6 +122,123 @@
     $("#map-lines").appendChild(line);
   }
 
+  // ---------- 地图视图：全屏缩放 / 拖动 ----------
+  const stage = $("#map-stage");
+  const viewport = $("#map-viewport");
+  let scale = 1, tx = 0, ty = 0, baseDim = 0;
+  const MIN_SCALE = 0.6, MAX_SCALE = 6, OVER = 160;
+  const pointers = new Map();
+  let last = { x: 0, y: 0 };
+  let pinchDist = 0, pinchMid = null;
+  let dragMoved = false;
+  let clickSuppressed = false;
+
+  function stageRect() { return stage.getBoundingClientRect(); }
+  function applyTransform() {
+    viewport.style.transform = "translate(" + tx + "px," + ty + "px) scale(" + scale + ")";
+  }
+  function sizeWorld() {
+    const r = stageRect();
+    baseDim = Math.min(r.width, r.height);
+    viewport.style.width = baseDim + "px";
+    viewport.style.height = baseDim + "px";
+  }
+  function clampPan() {
+    const r = stageRect();
+    const w = baseDim * scale, h = baseDim * scale;
+    const minTx = Math.min(0, r.width - w) - OVER;
+    const maxTx = Math.max(0, r.width - w) + OVER;
+    const minTy = Math.min(0, r.height - h) - OVER;
+    const maxTy = Math.max(0, r.height - h) + OVER;
+    tx = Math.max(minTx, Math.min(maxTx, tx));
+    ty = Math.max(minTy, Math.min(maxTy, ty));
+  }
+  function fit() {
+    const r = stageRect();
+    scale = 1;
+    tx = (r.width - baseDim) / 2;
+    ty = (r.height - baseDim) / 2;
+    applyTransform();
+  }
+  function zoomAt(cx, cy, factor) {
+    const wx = (cx - tx) / scale;
+    const wy = (cy - ty) / scale;
+    let ns = factor * scale;
+    ns = Math.max(MIN_SCALE, Math.min(MAX_SCALE, ns));
+    scale = ns;
+    tx = cx - wx * scale;
+    ty = cy - wy * scale;
+    clampPan();
+    applyTransform();
+  }
+  function dist2(a, b) { return Math.hypot(a.x - b.x, a.y - b.y); }
+  function mid2(a, b) { return { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 }; }
+
+  function setupMapView() {
+    stage.addEventListener("pointerdown", (e) => {
+      if (e.target.closest(".map-controls")) return;
+      pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      clickSuppressed = false;
+      dragMoved = false;
+      if (pointers.size === 1) {
+        last = { x: e.clientX, y: e.clientY };
+      } else if (pointers.size === 2) {
+        const p = [...pointers.values()];
+        pinchDist = dist2(p[0], p[1]);
+        pinchMid = mid2(p[0], p[1]);
+      }
+      stage.classList.add("grabbing");
+    });
+    window.addEventListener("pointermove", (e) => {
+      if (!pointers.has(e.pointerId)) return;
+      pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      const r = stageRect();
+      if (pointers.size === 1) {
+        const dx = e.clientX - last.x, dy = e.clientY - last.y;
+        if (Math.abs(dx) + Math.abs(dy) > 3) dragMoved = true;
+        if (dragMoved) {
+          clickSuppressed = true;
+          tx += dx; ty += dy;
+          applyTransform();
+        }
+        last = { x: e.clientX, y: e.clientY };
+      } else if (pointers.size === 2) {
+        const p = [...pointers.values()];
+        const d = dist2(p[0], p[1]);
+        const m = mid2(p[0], p[1]);
+        const cx = m.x - r.left, cy = m.y - r.top;
+        const factor = pinchDist > 0 ? d / pinchDist : 1;
+        const wx = (cx - tx) / scale, wy = (cy - ty) / scale;
+        let ns = Math.max(MIN_SCALE, Math.min(MAX_SCALE, scale * factor));
+        scale = ns;
+        tx = cx - wx * scale; ty = cy - wy * scale;
+        if (pinchMid) { tx += m.x - pinchMid.x; ty += m.y - pinchMid.y; }
+        pinchDist = d; pinchMid = m;
+        dragMoved = true; clickSuppressed = true;
+        clampPan(); applyTransform();
+      }
+    });
+    const endPointer = (e) => {
+      pointers.delete(e.pointerId);
+      if (pointers.size < 2) { pinchDist = 0; pinchMid = null; }
+      if (pointers.size === 0) stage.classList.remove("grabbing");
+    };
+    window.addEventListener("pointerup", endPointer);
+    window.addEventListener("pointercancel", endPointer);
+    stage.addEventListener("wheel", (e) => {
+      e.preventDefault();
+      const r = stageRect();
+      const cx = e.clientX - r.left, cy = e.clientY - r.top;
+      zoomAt(cx, cy, e.deltaY < 0 ? 1.15 : 1 / 1.15);
+    }, { passive: false });
+
+    $("#zoom-in").onclick = () => { const r = stageRect(); zoomAt(r.width / 2, r.height / 2, 1.3); };
+    $("#zoom-out").onclick = () => { const r = stageRect(); zoomAt(r.width / 2, r.height / 2, 1 / 1.3); };
+    $("#zoom-reset").onclick = () => fit();
+
+    window.addEventListener("resize", () => { sizeWorld(); clampPan(); fit(); });
+  }
+
   // ---------- 渲染地图 ----------
   function renderMap() {
     $("#map-bg").style.backgroundImage = "url('assets/images/map-bg.png')";
@@ -152,18 +269,20 @@
 
       if (isReachable) {
         el.addEventListener("click", () => {
+          if (clickSuppressed) return;
           sfxClick();
           travel(n.id);
         });
       } else if (isFound) {
         el.addEventListener("click", () => {
+          if (clickSuppressed) return;
           sfxClick();
           openCard(n.id);
         });
       }
       nodesLayer.appendChild(el);
 
-      if (isReachable) addLine(state.current, n, true);
+      if (isReachable) addLine(nodeById(state.current), n, true);
     });
 
     // 已探索路径
@@ -292,6 +411,9 @@
   // ---------- 初始化 ----------
   function init() {
     updateProgress();
+    sizeWorld();
+    fit();
+    setupMapView();
     renderMap();
 
     $("#open-codex").onclick = () => {
