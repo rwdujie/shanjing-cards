@@ -1,0 +1,319 @@
+:root {
+  --bg: #0d0d0f;
+  --bg-2: #16140f;
+  --gold: #c8a45c;
+  --gold-light: #e8c87a;
+  --gold-dark: #8a6d3b;
+  --red: #c0392b;
+  --red-light: #e74c3c;
+  --text: #ece5d8;
+  --muted: #9a9488;
+  --line: rgba(200, 164, 92, 0.35);
+  --panel-bg: rgba(18, 16, 12, 0.96);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  background: radial-gradient(circle at 50% 0%, #1a1712 0%, var(--bg) 60%);
+  color: var(--text);
+  font-family: "Noto Serif SC", "Songti SC", "STSong", serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* 顶部栏 */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(0,0,0,0.6), transparent);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  backdrop-filter: blur(4px);
+}
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand-seal {
+  font-family: "Ma Shan Zheng", "Noto Serif SC", serif;
+  font-size: 22px;
+  color: #1a1712;
+  background: linear-gradient(145deg, var(--gold-light), var(--gold-dark));
+  width: 38px; height: 38px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 6px;
+  box-shadow: 0 0 12px rgba(200,164,92,0.4);
+}
+.brand-text {
+  font-family: "Ma Shan Zheng", serif;
+  font-size: 24px;
+  color: var(--gold-light);
+  letter-spacing: 3px;
+}
+.topbar-right { display: flex; align-items: center; gap: 12px; }
+.progress {
+  font-size: 13px; color: var(--muted);
+  border: 1px solid var(--line); padding: 4px 10px; border-radius: 20px;
+}
+.ghost-btn {
+  background: transparent;
+  border: 1px solid var(--gold);
+  color: var(--gold-light);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all .2s;
+}
+.ghost-btn:hover { background: rgba(200,164,92,0.15); box-shadow: 0 0 10px rgba(200,164,92,0.3); }
+
+/* 地图 */
+.map-wrap { display: flex; flex-direction: column; align-items: center; padding: 18px 12px 40px; }
+.map-stage {
+  position: relative;
+  width: min(900px, 96vw);
+  aspect-ratio: 1 / 1;
+  border: 1px solid var(--gold);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 30px rgba(0,0,0,0.7), inset 0 0 40px rgba(0,0,0,0.6);
+  background: #0a0a0c;
+}
+.map-bg {
+  position: absolute; inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.92;
+}
+.map-lines { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.nodes { position: absolute; inset: 0; }
+
+/* 节点 */
+.node {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  cursor: pointer;
+}
+.node-dot {
+  width: 16px; height: 16px; border-radius: 50%;
+  border: 2px solid var(--gold);
+  background: rgba(20,18,14,0.7);
+  transition: all .25s;
+}
+.node.reachable .node-dot {
+  background: radial-gradient(circle, var(--gold-light), var(--gold-dark));
+  box-shadow: 0 0 14px var(--gold-light);
+  animation: pulse 1.6s infinite;
+}
+.node.player .node-dot {
+  width: 20px; height: 20px;
+  background: radial-gradient(circle, var(--red-light), var(--red));
+  border-color: #ff8a7a;
+  box-shadow: 0 0 18px var(--red-light);
+  animation: pulse 1.6s infinite;
+}
+.node.found .node-dot {
+  background: radial-gradient(circle, var(--gold-light), var(--gold-dark));
+  box-shadow: 0 0 10px rgba(200,164,92,0.6);
+}
+.node-label {
+  font-size: 12px; color: var(--text);
+  background: rgba(0,0,0,0.55);
+  padding: 1px 7px; border-radius: 10px;
+  border: 1px solid var(--line);
+  white-space: nowrap;
+}
+.node.reachable .node-label { color: var(--gold-light); border-color: var(--gold); }
+.node.player .node-label { color: #ffb3a8; }
+
+@keyframes pulse {
+  0%,100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.35); opacity: 0.7; }
+}
+
+.hint {
+  margin-top: 16px;
+  color: var(--muted);
+  font-size: 14px;
+  text-align: center;
+  max-width: 600px;
+  letter-spacing: 1px;
+}
+
+/* 弹层 */
+.overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.72);
+  display: none;
+  align-items: center; justify-content: center;
+  z-index: 50;
+  padding: 20px;
+  backdrop-filter: blur(3px);
+}
+.overlay.show { display: flex; animation: fade .25s ease; }
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+
+.panel {
+  position: relative;
+  background: var(--panel-bg);
+  border: 1px solid var(--gold);
+  border-radius: 12px;
+  padding: 26px 24px;
+  max-width: 460px;
+  width: 100%;
+  box-shadow: 0 0 30px rgba(200,164,92,0.18);
+  animation: rise .3s ease;
+}
+@keyframes rise { from { transform: translateY(16px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+.panel-title {
+  font-family: "Ma Shan Zheng", serif;
+  font-size: 22px; color: var(--gold-light);
+  letter-spacing: 2px; margin-bottom: 14px;
+  text-align: center;
+}
+.clue-text, .villager-text {
+  font-size: 16px; line-height: 1.9; color: var(--text);
+  text-align: justify;
+}
+.clue-panel { border-color: var(--gold-dark); }
+.clue-text::before { content: "“"; color: var(--gold); font-size: 22px; }
+.clue-text::after { content: "”"; color: var(--gold); font-size: 22px; }
+
+.villager-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.villager-head .panel-title { margin: 0; }
+.villager-avatar {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: linear-gradient(145deg, var(--gold-light), var(--gold-dark));
+  color: #1a1712; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+.panel-actions { margin-top: 20px; text-align: center; }
+
+.gold-btn {
+  background: linear-gradient(145deg, var(--gold-light), var(--gold-dark));
+  color: #1a1712;
+  border: none;
+  padding: 10px 22px;
+  font-size: 15px;
+  border-radius: 24px;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 600;
+  transition: all .2s;
+}
+.gold-btn:hover { box-shadow: 0 0 16px rgba(200,164,92,0.5); transform: translateY(-1px); }
+
+.close-x {
+  position: absolute; top: 12px; right: 14px;
+  background: transparent; border: none; color: var(--muted);
+  font-size: 18px; cursor: pointer;
+}
+.close-x:hover { color: var(--gold-light); }
+
+/* 卡片 */
+.card-panel { max-width: 420px; padding: 22px; }
+.card-img-wrap {
+  width: 100%; aspect-ratio: 1/1;
+  border: 1px solid var(--line); border-radius: 10px;
+  overflow: hidden; background: #0a0a0c; margin-bottom: 16px;
+  display: flex; align-items: center; justify-content: center;
+}
+.card-img { width: 100%; height: 100%; object-fit: cover; }
+.card-img.placeholder {
+  font-family: "Ma Shan Zheng", serif;
+  font-size: 80px; color: var(--gold-dark);
+  display: flex; align-items: center; justify-content: center;
+}
+.card-name {
+  font-family: "Ma Shan Zheng", serif;
+  font-size: 30px; color: var(--gold-light); text-align: center;
+  letter-spacing: 3px;
+}
+.card-alias { text-align: center; color: var(--muted); font-size: 13px; margin: 4px 0 12px; }
+.card-tags { display: flex; gap: 8px; justify-content: center; margin-bottom: 16px; flex-wrap: wrap; }
+.tag {
+  font-size: 12px; color: var(--gold-light);
+  border: 1px solid var(--line); border-radius: 20px; padding: 3px 12px;
+}
+.card-section-title {
+  font-family: "Ma Shan Zheng", serif;
+  color: var(--gold); font-size: 17px; letter-spacing: 2px;
+  margin: 14px 0 6px; padding-left: 10px;
+  border-left: 3px solid var(--gold);
+}
+.card-vernacular { font-size: 15px; line-height: 1.85; text-align: justify; color: var(--text); }
+.card-original {
+  font-size: 15px; line-height: 1.9; text-align: justify;
+  color: var(--gold-light); background: rgba(200,164,92,0.06);
+  border-radius: 8px; padding: 12px 14px;
+}
+
+/* 图鉴 */
+.codex-panel { max-width: 680px; }
+.codex-title { margin-bottom: 18px; }
+.codex-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 14px;
+}
+.codex-cell {
+  border: 1px solid var(--line); border-radius: 10px;
+  overflow: hidden; cursor: pointer; background: #0a0a0c;
+  transition: all .2s;
+}
+.codex-cell:hover { border-color: var(--gold); box-shadow: 0 0 12px rgba(200,164,92,0.3); }
+.codex-cell.locked { cursor: default; opacity: 0.85; }
+.codex-cell .thumb { width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block; }
+.codex-cell .thumb.placeholder {
+  display: flex; align-items: center; justify-content: center;
+  font-family: "Ma Shan Zheng", serif; font-size: 44px; color: var(--gold-dark);
+}
+.codex-cell .cap {
+  text-align: center; font-size: 13px; padding: 6px 4px;
+  color: var(--gold-light); border-top: 1px solid var(--line);
+}
+.codex-cell.locked .cap { color: var(--muted); }
+
+/* 设置 */
+.settings-panel { max-width: 360px; }
+.setting-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 4px; border-bottom: 1px solid var(--line);
+}
+.toggle {
+  background: rgba(200,164,92,0.15); border: 1px solid var(--gold);
+  color: var(--gold-light); padding: 5px 16px; border-radius: 20px;
+  cursor: pointer; font-family: inherit;
+}
+.toggle.off { background: transparent; color: var(--muted); border-color: var(--line); }
+.danger-btn {
+  background: transparent; border: 1px solid var(--red);
+  color: var(--red-light); padding: 5px 16px; border-radius: 20px;
+  cursor: pointer; font-family: inherit;
+}
+.danger-btn:hover { background: rgba(192,57,43,0.15); }
+.setting-note { font-size: 12px; color: var(--muted); margin-top: 14px; text-align: center; }
+
+/* 发现提示 */
+.toast {
+  position: fixed; left: 50%; bottom: 40px; transform: translateX(-50%) translateY(30px);
+  background: linear-gradient(145deg, var(--gold-light), var(--gold-dark));
+  color: #1a1712; padding: 12px 26px; border-radius: 30px;
+  font-weight: 600; letter-spacing: 1px;
+  opacity: 0; pointer-events: none; transition: all .4s; z-index: 80;
+  box-shadow: 0 0 20px rgba(200,164,92,0.5);
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+@media (max-width: 480px) {
+  .brand-text { font-size: 20px; }
+  .map-stage { width: 94vw; }
+  .panel { padding: 20px 16px; }
+  .codex-grid { grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); }
+}

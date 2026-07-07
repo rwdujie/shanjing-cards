@@ -1,0 +1,28 @@
+{
+  "start": "start",
+  "nodes": [
+    { "id": "start", "label": "昆仑·中土", "region": "中", "x": 50, "y": 52, "type": "start" },
+    { "id": "jiuweihu", "label": "青丘", "region": "南", "x": 42, "y": 82, "type": "creature" },
+    { "id": "fenghuang", "label": "丹穴", "region": "南", "x": 27, "y": 90, "type": "creature" },
+    { "id": "lushu", "label": "杻阳", "region": "南", "x": 55, "y": 86, "type": "creature" },
+    { "id": "boyi", "label": "基山", "region": "南", "x": 67, "y": 92, "type": "creature" },
+    { "id": "zheng", "label": "章莪", "region": "西", "x": 16, "y": 48, "type": "creature" },
+    { "id": "dijiang", "label": "天山", "region": "西", "x": 9, "y": 30, "type": "creature" },
+    { "id": "qiongqi", "label": "邽山", "region": "西", "x": 24, "y": 58, "type": "creature" },
+    { "id": "bifang", "label": "章莪西", "region": "西", "x": 12, "y": 67, "type": "creature" },
+    { "id": "zhuyin", "label": "钟山", "region": "北", "x": 50, "y": 12, "type": "creature" },
+    { "id": "lingyu", "label": "北海", "region": "中海内", "x": 74, "y": 36, "type": "creature" }
+  ],
+  "edges": [
+    { "from": "start", "to": "jiuweihu" },
+    { "from": "start", "to": "zheng" },
+    { "from": "start", "to": "zhuyin" },
+    { "from": "start", "to": "lingyu" },
+    { "from": "jiuweihu", "to": "fenghuang" },
+    { "from": "jiuweihu", "to": "lushu" },
+    { "from": "lushu", "to": "boyi" },
+    { "from": "zheng", "to": "dijiang" },
+    { "from": "zheng", "to": "qiongqi" },
+    { "from": "qiongqi", "to": "bifang" }
+  ]
+}

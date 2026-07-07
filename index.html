@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>山海经 · 妖兽图鉴</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <!-- 顶部栏 -->
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-seal">山海</span>
+      <span class="brand-text">妖兽图鉴</span>
+    </div>
+    <div class="topbar-right">
+      <div class="progress" id="progress">已得 0 / 10</div>
+      <button class="ghost-btn" id="open-codex">图鉴</button>
+      <button class="ghost-btn" id="open-settings">设置</button>
+    </div>
+  </header>
+
+  <!-- 地图主区 -->
+  <main class="map-wrap">
+    <div class="map-stage" id="map-stage">
+      <div class="map-bg" id="map-bg"></div>
+      <svg class="map-lines" id="map-lines" viewBox="0 0 100 100" preserveAspectRatio="none"></svg>
+      <div class="nodes" id="nodes"></div>
+    </div>
+    <p class="hint" id="hint">你立于昆仑·中土。择一方向，踏上寻妖之路。</p>
+  </main>
+
+  <!-- 传闻弹层 -->
+  <div class="overlay" id="clue-overlay">
+    <div class="panel clue-panel">
+      <div class="panel-title">民间传闻</div>
+      <p class="clue-text" id="clue-text"></p>
+      <div class="panel-actions">
+        <button class="gold-btn" id="clue-next">寻访村民 →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 村民对话弹层 -->
+  <div class="overlay" id="villager-overlay">
+    <div class="panel villager-panel">
+      <div class="villager-head">
+        <div class="villager-avatar">民</div>
+        <div class="panel-title">村中老者</div>
+      </div>
+      <p class="villager-text" id="villager-text"></p>
+      <div class="panel-actions">
+        <button class="gold-btn" id="villager-go">前往探寻 →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 卡片详情弹层 -->
+  <div class="overlay" id="card-overlay">
+    <div class="panel card-panel">
+      <button class="close-x" id="card-close">✕</button>
+      <div class="card-img-wrap">
+        <img class="card-img" id="card-img" alt="妖兽图" />
+      </div>
+      <div class="card-body">
+        <div class="card-name" id="card-name"></div>
+        <div class="card-alias" id="card-alias"></div>
+        <div class="card-tags">
+          <span class="tag" id="card-region"></span>
+          <span class="tag" id="card-source"></span>
+        </div>
+        <div class="card-section-title">白话志异</div>
+        <p class="card-vernacular" id="card-vernacular"></p>
+        <div class="card-section-title">山海经·原文</div>
+        <p class="card-original" id="card-original"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 图鉴弹层 -->
+  <div class="overlay" id="codex-overlay">
+    <div class="panel codex-panel">
+      <button class="close-x" id="codex-close">✕</button>
+      <div class="panel-title codex-title">妖兽图鉴 · <span id="codex-count">0/10</span></div>
+      <div class="codex-grid" id="codex-grid"></div>
+    </div>
+  </div>
+
+  <!-- 设置弹层 -->
+  <div class="overlay" id="settings-overlay">
+    <div class="panel settings-panel">
+      <button class="close-x" id="settings-close">✕</button>
+      <div class="panel-title">设置</div>
+      <div class="setting-row">
+        <span>音效 / 氛围乐</span>
+        <button class="toggle" id="toggle-sound">开</button>
+      </div>
+      <div class="setting-row">
+        <span>重置游历进度</span>
+        <button class="danger-btn" id="reset-progress">重置</button>
+      </div>
+      <p class="setting-note">进度仅保存在本机浏览器，不会上传。</p>
+    </div>
+  </div>
+
+  <!-- 发现提示 -->
+  <div class="toast" id="toast"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
