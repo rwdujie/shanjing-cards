@@ -247,7 +247,7 @@
 
   // ---------- 渲染地图 ----------
   function renderMap() {
-    $("#map-bg").style.backgroundImage = "url('assets/images/map-bg.svg')";
+    $("#map-bg").style.backgroundImage = "url('assets/images/map-bg-ai.png')";
     const nodesLayer = $("#nodes");
     nodesLayer.innerHTML = "";
     $("#map-lines").innerHTML = "";
