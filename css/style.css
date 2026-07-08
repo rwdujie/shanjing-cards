@@ -89,7 +89,8 @@ body { display: flex; flex-direction: column; }
 }
 .map-bg {
   position: absolute; inset: 0;
-  background-size: cover;
+  background-size: contain;
+  background-repeat: no-repeat;
   background-position: center;
   opacity: 0.92;
   user-select: none;

@@ -8,7 +8,12 @@
   const $ = (s) => document.querySelector(s);
   const creatureById = (id) => CREATURES.find((c) => c.id === id);
   const nodeById = (id) => MAP.nodes.find((n) => n.id === id);
-  const neighbors = (id) => MAP.edges.filter((e) => e.from === id).map((e) => e.to);
+  // 路线按无向图处理：既能继续向前探索，也能原路返回、前往其他到过之地
+  const neighbors = (id) => {
+    const out = MAP.edges.filter((e) => e.from === id).map((e) => e.to);
+    const inc = MAP.edges.filter((e) => e.to === id).map((e) => e.from);
+    return [...new Set([...out, ...inc])];
+  };
 
   // ---------- 状态 ----------
   let state = loadState();
@@ -125,7 +130,7 @@
   // ---------- 地图视图：全屏缩放 / 拖动 ----------
   const stage = $("#map-stage");
   const viewport = $("#map-viewport");
-  let scale = 1, tx = 0, ty = 0;
+  let scale = 1, tx = 0, ty = 0, baseDim = 0;
   const MIN_SCALE = 0.6, MAX_SCALE = 6, OVER = 160;
   const pointers = new Map();
   let last = { x: 0, y: 0 };
@@ -139,12 +144,14 @@
   }
   function sizeWorld() {
     const r = stageRect();
-    viewport.style.width = r.width + "px";
-    viewport.style.height = r.height + "px";
+    // 世界 = 完整方形图，取屏幕长边，使图完整显示且大于屏幕，可拖动看溢出部分
+    baseDim = Math.max(r.width, r.height);
+    viewport.style.width = baseDim + "px";
+    viewport.style.height = baseDim + "px";
   }
   function clampPan() {
     const r = stageRect();
-    const w = r.width * scale, h = r.height * scale;
+    const w = baseDim * scale, h = baseDim * scale;
     const minTx = Math.min(0, r.width - w) - OVER;
     const maxTx = Math.max(0, r.width - w) + OVER;
     const minTy = Math.min(0, r.height - h) - OVER;
@@ -153,9 +160,10 @@
     ty = Math.max(minTy, Math.min(maxTy, ty));
   }
   function fit() {
+    const r = stageRect();
     scale = 1;
-    tx = 0;
-    ty = 0;
+    tx = (r.width - baseDim) / 2;
+    ty = (r.height - baseDim) / 2;
     applyTransform();
   }
   function zoomAt(cx, cy, factor) {
@@ -248,34 +256,32 @@
     MAP.nodes.forEach((n) => {
       const isPlayer = n.id === state.current;
       const isReachable = reachable.includes(n.id);
+      const isVisited = !!state.visited[n.id];
       const isFound = n.type === "creature" && state.discovered[n.id];
-      // 未解锁且不可达的妖兽：隐藏
-      if (n.type === "creature" && !isFound && !isReachable) return;
+      // 未解锁、不可达且未曾到访过的妖兽：保持隐藏（保留探索感）
+      if (n.type === "creature" && !isFound && !isReachable && !isVisited) return;
 
       const el = document.createElement("div");
-      el.className =
-        "node" +
-        (isPlayer ? " player" : isReachable ? " reachable" : isFound ? " found" : "");
+      let cls = "node";
+      if (isPlayer) cls += " player";
+      else if (isReachable) cls += " reachable";
+      else if (isVisited || isFound) cls += " found";
+      el.className = cls;
       el.style.left = n.x + "%";
       el.style.top = n.y + "%";
       let label = "";
       if (isPlayer) label = n.label + "（你）";
       else if (isReachable) label = n.label;
-      else if (isFound) label = n.label;
+      else if (isVisited || isFound) label = n.label;
       el.innerHTML =
         '<div class="node-dot"></div>' + (label ? '<div class="node-label">' + label + "</div>" : "");
 
-      if (isReachable) {
+      // 可达（继续探索 / 原路返回）或曾到访过（一键跳回 / 前往其他到过之地）均可点击移动
+      if (isReachable || isVisited) {
         el.addEventListener("click", () => {
           if (clickSuppressed) return;
           sfxClick();
           travel(n.id);
-        });
-      } else if (isFound) {
-        el.addEventListener("click", () => {
-          if (clickSuppressed) return;
-          sfxClick();
-          openCard(n.id);
         });
       }
       nodesLayer.appendChild(el);
