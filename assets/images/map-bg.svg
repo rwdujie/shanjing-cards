@@ -1,174 +1,350 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="1000" height="1000" preserveAspectRatio="xMidYMid meet">
   <defs>
-    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#e8c87a"/>
       <stop offset="0.5" stop-color="#c8a45c"/>
       <stop offset="1" stop-color="#8a6d3b"/>
     </linearGradient>
-    <linearGradient id="goldFaint" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#c8a45c" stop-opacity="0.55"/>
-      <stop offset="1" stop-color="#8a6d3b" stop-opacity="0.35"/>
+    <linearGradient id="gf" x1="0" y1="0" x2="1" y2="2">
+      <stop offset="0" stop-color="#c8a45c" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#8a6d3b" stop-opacity="0.25"/>
     </linearGradient>
-    <radialGradient id="sea" cx="50%" cy="46%" r="60%">
-      <stop offset="0" stop-color="#10140f" stop-opacity="0"/>
-      <stop offset="1" stop-color="#07090b" stop-opacity="0.9"/>
+    <radialGradient id="vign" cx="50%" cy="48%" r="65%">
+      <stop offset="0" stop-color="#12100b" stop-opacity="0"/>
+      <stop offset="0.7" stop-color="#090806" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#050404" stop-opacity="0.92"/>
     </radialGradient>
-    <radialGradient id="land" cx="50%" cy="50%" r="55%">
-      <stop offset="0" stop-color="#15130c"/>
-      <stop offset="0.75" stop-color="#100e09"/>
-      <stop offset="1" stop-color="#0b0a07"/>
-    </radialGradient>
-    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="3"/>
-    </filter>
-    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-      <path d="M40 0 L0 0 0 40" fill="none" stroke="url(#gold)" stroke-width="0.5" opacity="0.10"/>
-    </pattern>
+    <filter id="blur"><feGaussianBlur stdDeviation="4"/></filter>
+    <filter id="blur2"><feGaussianBlur stdDeviation="7"/></filter>
   </defs>
 
-  <!-- 底纹：经纬网格 -->
-  <rect x="0" y="0" width="1000" height="1000" fill="url(#grid)"/>
+  <!-- 底色：暖调深褐（接近宣纸做旧的暗版） -->
+  <rect width="1000" height="1000" fill="#110f0a"/>
 
-  <!-- 外框 + 角饰 -->
-  <rect x="28" y="28" width="944" height="944" fill="none" stroke="url(#gold)" stroke-width="3" opacity="0.85"/>
-  <rect x="42" y="42" width="916" height="916" fill="none" stroke="url(#gold)" stroke-width="1" opacity="0.4"/>
-  <g fill="none" stroke="url(#gold)" stroke-width="1.5" opacity="0.7">
+  <!-- ===== 华夏陆形 ===== -->
+  <path d="M512 196 C560 178 612 180 660 196 C712 212 760 224 792 250
+           C822 274 836 286 858 300 C886 318 902 332 900 356
+           C898 380 878 392 884 414 C890 440 872 452 878 478
+           C884 506 868 520 850 524 C872 542 872 568 852 584
+           C872 606 866 636 838 652 C860 672 856 700 828 712
+           C848 732 838 760 808 768 C824 792 806 818 772 824
+           C800 850 760 858 724 846 C740 872 700 880 664 866
+           C680 892 636 902 604 886 C572 902 536 894 520 872
+           C500 888 466 882 454 860 C420 868 388 856 380 828
+           C350 836 320 818 318 790 C292 794 268 776 270 748
+           C246 744 226 724 232 698 C206 686 190 660 202 634
+           C176 616 166 586 184 560 C158 540 150 508 170 484
+           C146 462 144 428 168 408 C146 386 150 352 176 336
+           C156 314 164 282 192 270 C214 250 244 248 268 256
+           C292 234 326 224 352 232 C384 206 446 196 512 196 Z"
+        fill="#14120d"/>
+
+  <!-- 外框 -->
+  <rect x="28" y="28" width="944" height="944" fill="none" stroke="url(#g)" stroke-width="3" opacity="0.85"/>
+  <rect x="42" y="42" width="916" height="916" fill="none" stroke="url(#g)" stroke-width="1" opacity="0.35"/>
+  <!-- 角饰 -->
+  <g fill="none" stroke="url(#g)" stroke-width="1.5" opacity="0.7">
     <circle cx="28" cy="28" r="9"/><circle cx="972" cy="28" r="9"/>
     <circle cx="28" cy="972" r="9"/><circle cx="972" cy="972" r="9"/>
   </g>
 
-  <!-- 云雾（四角缭绕） -->
-  <g fill="none" stroke="url(#goldFaint)" stroke-width="2" opacity="0.4" filter="url(#soft)">
-    <path d="M60 120 q40 -30 80 0 q40 -30 80 0 q-30 30 -80 18 q-50 12 -80 -18 Z"/>
-    <path d="M820 110 q35 -26 70 0 q35 -26 70 0 q-26 26 -70 16 q-44 10 -70 -16 Z"/>
-    <path d="M70 880 q40 -30 80 0 q40 -30 80 0 q-30 30 -80 18 q-50 12 -80 -18 Z"/>
-    <path d="M800 890 q35 -26 70 0 q35 -26 70 0 q-26 26 -70 16 q-44 10 -70 -16 Z"/>
-    <path d="M500 70 q35 -24 70 0 q35 -24 70 0 q-26 24 -70 14 q-44 10 -70 -14 Z"/>
-    <path d="M500 940 q35 -24 70 0 q35 -24 70 0 q-26 24 -70 14 q-44 10 -70 -14 Z"/>
+  <!-- ==================== 云雾层（弥漫） ==================== -->
+  <g fill="none" stroke="url(#gf)" filter="url(#blur2)" opacity="0.55">
+    <!-- 左上大云团 -->
+    <path d="M30 80 q50 -40 120 -10 q60 -30 130 10 q40 -20 90 5 q-40 25 -110 15 q-70 15 -140 -5 q-40 5 -90 -15Z"/>
+    <path d="M60 150 q45 -35 95 0 q45 -35 95 0 q-35 28 -85 18 q-50 10 -105 -18Z"/>
+    <!-- 右上云 -->
+    <path d="M800 70 q50 -35 115 0 q45 -30 95 5 q-38 24 -100 14 q-55 12 -110 -19Z"/>
+    <path d="M840 140 q40 -30 90 0 q40 -30 85 0 q-32 24 -78 16 q-48 10 -97 -32Z"/>
+    <!-- 左下云 -->
+    <path d="M40 820 q50 -40 120 -10 q55 -30 115 10 q35 -18 80 3 q-38 23 -105 13 q-65 13 -135 -16Z"/>
+    <path d="M80 900 q42 -32 90 0 q42 -32 88 0 q-30 26 -75 17 q-47 11 -103 -34Z"/>
+    <!-- 右下云 -->
+    <path d="M800 840 q48 -36 108 0 q44 -30 92 4 q-36 24 -94 14 q-54 12 -110 -22Z"/>
+    <!-- 上方中 -->
+    <path d="M400 40 q45 -32 100 0 q45 -32 95 0 q-33 26 -80 17 q-52 11 -115 -35Z"/>
+    <!-- 下方中 -->
+    <path d="M380 930 q45 -32 100 0 q45 -32 95 0 q-33 26 -80 17 q-52 11 -115 -35Z"/>
   </g>
 
-  <!-- ===== 华夏陆形（写意轮廓，雄鸡之势） ===== -->
-  <path id="china" d="M512 196
-      C560 178 612 180 660 196
-      C712 212 760 224 792 250
-      C822 274 836 286 858 300
-      C886 318 902 332 900 356
-      C898 380 878 392 884 414
-      C890 440 872 452 878 478
-      C884 506 868 520 850 524
-      C872 542 872 568 852 584
-      C872 606 866 636 838 652
-      C860 672 856 700 828 712
-      C848 732 838 760 808 768
-      C824 792 806 818 772 824
-      C800 850 760 858 724 846
-      C740 872 700 880 664 866
-      C680 892 636 902 604 886
-      C572 902 536 894 520 872
-      C500 888 466 882 454 860
-      C420 868 388 856 380 828
-      C350 836 320 818 318 790
-      C292 794 268 776 270 748
-      C246 744 226 724 232 698
-      C206 686 190 660 202 634
-      C176 616 166 586 184 560
-      C158 540 150 508 170 484
-      C146 462 144 428 168 408
-      C146 386 150 352 176 336
-      C156 314 164 282 192 270
-      C214 250 244 248 268 256
-      C292 234 326 224 352 232
-      C384 206 446 196 512 196 Z"
-    fill="url(#land)" stroke="url(#gold)" stroke-width="2.6" opacity="0.95"/>
-  <!-- 陆内淡描边（增加层次） -->
-  <use href="#china" fill="none" stroke="url(#gold)" stroke-width="0.8" opacity="0.3" transform="translate(5 5) scale(0.99)"/>
-
-  <!-- ===== 山脉（写意峰峦，西密东疏） ===== -->
-  <!-- 西部/西南：昆仑·喜马拉雅·横断 -->
-  <g fill="none" stroke="url(#gold)" stroke-width="1.6" opacity="0.6" stroke-linejoin="round">
-    <path d="M188 560 l14 -26 l14 26 M216 572 l14 -26 l14 26 M244 560 l14 -26 l14 26 M272 572 l12 -22 l12 22"/>
-    <path d="M206 600 l12 -22 l12 22 M230 610 l12 -22 l12 22 M254 600 l12 -22 l12 22"/>
-    <path d="M210 640 l11 -20 l11 20 M232 648 l11 -20 l11 20 M254 640 l11 -20 l11 20"/>
-    <path d="M300 660 l12 -22 l12 22 M324 668 l12 -22 l12 22"/>
-  </g>
-  <!-- 西北：天山 -->
-  <g fill="none" stroke="url(#gold)" stroke-width="1.5" opacity="0.55" stroke-linejoin="round">
-    <path d="M180 430 l13 -24 l13 24 M206 442 l13 -24 l13 24 M232 430 l12 -22 l12 22"/>
-  </g>
-  <!-- 中部：秦岭 -->
-  <g fill="none" stroke="url(#gold)" stroke-width="1.4" opacity="0.5" stroke-linejoin="round">
-    <path d="M430 560 l11 -20 l11 20 M452 568 l11 -20 l11 20 M474 560 l11 -20 l11 20"/>
-  </g>
-  <!-- 北东：太行/燕山 -->
-  <g fill="none" stroke="url(#gold)" stroke-width="1.4" opacity="0.5" stroke-linejoin="round">
-    <path d="M600 470 l11 -20 l11 20 M622 478 l11 -20 l11 20 M644 470 l10 -18 l10 18"/>
-  </g>
-  <!-- 南岭 -->
-  <g fill="none" stroke="url(#gold)" stroke-width="1.3" opacity="0.45" stroke-linejoin="round">
-    <path d="M520 760 l10 -18 l10 18 M542 768 l10 -18 l10 18 M564 760 l10 -18 l10 18"/>
+  <!-- 山间薄雾（局部模糊层） -->
+  <g fill="none" stroke="#c8a45c" filter="url(#blur)" opacity="0.2">
+    <path d="M180 500 Q280 480 380 520 Q480 560 580 520 Q680 480 780 530"/>
+    <path d="M220 600 Q340 580 460 620 Q580 660 700 600 Q800 550 860 590"/>
+    <path d="M300 720 Q420 700 540 740 Q650 780 750 730"/>
   </g>
 
-  <!-- ===== 河流 ===== -->
-  <!-- 黄河：几字弯 + 东入渤海 -->
-  <path d="M300 600 C340 560 330 500 380 500 C440 500 440 440 470 452
-           C500 464 500 520 548 520 C600 520 632 470 700 470 C760 470 786 452 804 430"
-        fill="none" stroke="url(#gold)" stroke-width="2.4" opacity="0.65"/>
-  <!-- 长江：西来东去入东海 -->
-  <path d="M250 660 C320 672 360 700 430 686 C520 668 560 640 640 654
-           C720 668 760 640 812 600"
-        fill="none" stroke="url(#gold)" stroke-width="2.4" opacity="0.65"/>
-  <!-- 珠江（南） -->
-  <path d="M520 790 C560 800 600 812 648 800" fill="none" stroke="url(#gold)" stroke-width="1.8" opacity="0.5"/>
-  <!-- 淮河（中） -->
-  <path d="M560 600 C610 606 660 604 712 588" fill="none" stroke="url(#gold)" stroke-width="1.6" opacity="0.45"/>
+  <!-- ==================== 山脉系统（核心视觉） ==================== -->
 
-  <!-- ===== 古建楼阁（点缀） ===== -->
-  <g fill="url(#gold)" opacity="0.7">
-    <!-- 屋顶 -->
-    <path d="M0 0 l16 0 l-8 -10 Z" transform="translate(470 470)"/>
-    <path d="M0 0 l14 0 l-7 -9 Z" transform="translate(360 520)"/>
-    <path d="M0 0 l14 0 l-7 -9 Z" transform="translate(640 560)"/>
-    <path d="M0 0 l13 0 l-6.5 -8 Z" transform="translate(540 700)"/>
-    <path d="M0 0 l13 0 l-6.5 -8 Z" transform="translate(300 640)"/>
-    <path d="M0 0 l12 0 l-6 -7 Z" transform="translate(720 460)"/>
-  </g>
-
-  <!-- 海域标注 -->
-  <g fill="url(#gold)" opacity="0.38" font-family="serif" font-size="20" letter-spacing="4">
-    <text x="852" y="560">东海</text>
-    <text x="560" y="900">南海</text>
-    <text x="120" y="470">西域</text>
-    <text x="150" y="320">漠北</text>
-  </g>
-
-  <!-- ===== 红色路线（示意游历） ===== -->
-  <g fill="none" stroke="#c0392b" stroke-width="2" opacity="0.8" stroke-dasharray="2 6" stroke-linecap="round">
-    <path d="M500 500 C470 560 470 620 540 700 C600 760 660 780 720 760"/>
-    <path d="M500 500 C420 520 360 500 320 560"/>
-    <path d="M500 500 C500 420 510 340 512 250"/>
-    <path d="M500 500 C620 470 720 470 800 450"/>
-  </g>
-
-  <!-- ===== 罗盘（右上） ===== -->
-  <g transform="translate(872 130)" opacity="0.9">
-    <circle r="54" fill="#0d0b08" fill-opacity="0.6" stroke="url(#gold)" stroke-width="2"/>
-    <circle r="42" fill="none" stroke="url(#gold)" stroke-width="0.8" opacity="0.6"/>
-    <path d="M0 -48 L10 0 L0 48 L-10 0 Z" fill="url(#gold)" opacity="0.92"/>
-    <path d="M-48 0 L0 -10 L48 0 L0 10 Z" fill="none" stroke="url(#gold)" stroke-width="1.4" opacity="0.8"/>
-    <g fill="url(#gold)" font-family="serif" font-size="16" text-anchor="middle">
-      <text x="0" y="-32">北</text>
-      <text x="0" y="44">南</text>
-      <text x="36" y="6">东</text>
-      <text x="-36" y="6">西</text>
+  <!-- === 西部·昆仑/喜马拉雅（最大最密） === -->
+  <g fill="none" stroke="url(#g)" stroke-linejoin="round" stroke-linecap="round">
+    <!-- 第一排主峰 -->
+    <g stroke-width="2.2" opacity="0.75">
+      <path d="M160 540 l18 -34 l18 34 M198 548 l18 -34 l18 34 M234 540 l18 -34 l18 34 M270 548 l16 -30 l16 30"/>
+    </g>
+    <!-- 第二排 -->
+    <g stroke-width="2" opacity="0.65">
+      <path d="M174 580 l16 -30 l16 30 M206 588 l16 -30 l16 30 M238 580 l16 -30 l16 30 M270 588 l14 -26 l14 26"/>
+    </g>
+    <!-- 第三排（底部） -->
+    <g stroke-width="1.8" opacity="0.55">
+      <path d="M188 622 l15 -28 l15 28 M222 630 l15 -28 l15 28 M254 622 l15 -28 l15 28 M286 630 l13 -24 l13 24"/>
+    </g>
+    <!-- 第四排延伸 -->
+    <g stroke-width="1.6" opacity="0.45">
+      <path d="M200 660 l13 -24 l13 24 M230 667 l13 -24 l13 24 M260 660 l13 -24 l13 24"/>
+    </g>
+    <!-- 横断山脉向南延展 -->
+    <g stroke-width="1.8" opacity="0.5">
+      <path d="M290 640 l15 -28 l15 28 M320 648 l15 -28 l15 28 M350 640 l15 -28 l15 28 M380 648 l14 -26 l14 26"/>
     </g>
   </g>
 
-  <!-- 题署 -->
-  <g opacity="0.85">
-    <rect x="92" y="870" width="124" height="42" fill="#0d0b08" fill-opacity="0.55" stroke="url(#gold)" stroke-width="1.2"/>
-    <text x="154" y="898" fill="url(#gold)" font-family="serif" font-size="24" letter-spacing="6" text-anchor="middle">山海舆图</text>
+  <!-- === 西北·天山 === -->
+  <g fill="none" stroke="url(#g)" stroke-linejoin="round" stroke-linecap="round">
+    <g stroke-width="2" opacity="0.65">
+      <path d="M160 410 l17 -32 l17 32 M194 418 l17 -32 l17 32 M228 410 l16 -30 l16 30"/>
+    </g>
+    <g stroke-width="1.7" opacity="0.5">
+      <path d="M174 450 l15 -28 l15 28 M204 458 l15 -28 l15 28 M234 450 l14 -26 l14 26"/>
+    </g>
   </g>
 
-  <!-- 暗角 -->
-  <rect x="0" y="0" width="1000" height="1000" fill="url(#sea)"/>
+  <!-- === 中北·祁连/阴山 === -->
+  <g fill="none" stroke="url(#g)" stroke-linejoin="round" stroke-linecap="round" opacity="0.5">
+    <g stroke-width="1.7">
+      <path d="M300 430 l15 -28 l15 28 M330 438 l15 -28 l15 28 M360 430 l14 -26 l14 26"/>
+    </g>
+    <g stroke-width="1.4" opacity="0.4">
+      <path d="M310 470 l13 -24 l13 24 M338 477 l13 -24 l13 24 M366 470 l13 -24 l13 24"/>
+    </g>
+  </g>
+
+  <!-- === 中部·秦岭（东西横贯） === -->
+  <g fill="none" stroke="url(#g)" stroke-linejoin="round" stroke-linecap="round">
+    <g stroke-width="1.9" opacity="0.6">
+      <path d="M400 540 l16 -30 l16 30 M432 548 l16 -30 l16 30 M464 540 l16 -30 l16 30 M496 548 l15 -28 l15 28 M528 540 l15 -28 l15 28"/>
+    </g>
+    <g stroke-width="1.5" opacity="0.45">
+      <path d="M414 578 l14 -26 l14 26 M444 585 l14 -26 l14 26 M474 578 l14 -26 l14 26 M504 585 l13 -24 l13 24 M534 578 l13 -24 l13 24"/>
+    </g>
+  </g>
+
+  <!-- === 北东·太行/燕山 === -->
+  <g fill="none" stroke="url(#g)" stroke-linejoin="round" stroke-linecap="round">
+    <g stroke-width="1.8" opacity="0.55">
+      <path d="M580 440 l15 -28 l15 28 M610 448 l15 -28 l15 28 M640 440 l15 -28 l15 28 M670 448 l14 -26 l14 26"/>
+    </g>
+    <g stroke-width="1.4" opacity="0.4">
+      <path d="M592 478 l13 -24 l13 24 M620 485 l13 -24 l13 24 M648 478 l13 -24 l13 24 M676 485 l12 -22 l12 22"/>
+    </g>
+  </g>
+
+  <!-- === 东北·长白/兴安岭 === -->
+  <g fill="none" stroke="url(#g)" stroke-linejoin="round" stroke-linecap="round" opacity="0.45">
+    <g stroke-width="1.6">
+      <path d="M720 360 l14 -26 l14 26 M748 367 l14 -26 l14 26 M776 360 l14 -26 l14 26"/>
+    </g>
+    <g stroke-width="1.3" opacity="0.35">
+      <path d="M732 395 l12 -22 l12 22 M758 402 l12 -22 l12 22 M784 395 l12 -22 l12 22"/>
+    </g>
+  </g>
+
+  <!-- === 南岭 === -->
+  <g fill="none" stroke="url(#g)" stroke-linejoin="round" stroke-linecap="round">
+    <g stroke-width="1.7" opacity="0.5">
+      <path d="M480 740 l15 -28 l15 28 M510 748 l15 -28 l15 28 M540 740 l15 -28 l15 28 M570 748 l14 -26 l14 26"/>
+    </g>
+    <g stroke-width="1.3" opacity="0.35">
+      <path d="M492 776 l12 -22 l12 22 M520 783 l12 -22 l12 22 M548 776 l12 -22 l12 22 M576 783 l11 -20 l11 20"/>
+    </g>
+  </g>
+
+  <!-- === 东南·武夷/东南丘陵 === -->
+  <g fill="none" stroke="url(#g)" stroke-linejoin="round" stroke-linecap="round" opacity="0.4">
+    <g stroke-width="1.5">
+      <path d="M680 680 l14 -26 l14 26 M708 687 l14 -26 l14 26 M736 680 l14 -26 l14 26"/>
+    </g>
+    <g stroke-width="1.2" opacity="0.3">
+      <path d="M692 714 l12 -22 l12 22 M718 720 l12 -22 l12 22 M744 714 l12 -22 l12 22"/>
+    </g>
+  </g>
+
+  <!-- === 台湾岛山脉 === -->
+  <g fill="none" stroke="url(#g)" stroke-linejoin="round" stroke-linecap="round" opacity="0.4">
+    <path d="M856 700 l10 -18 l10 18 M872 706 l10 -18 l10 18 M888 700 l10 -18 l10 18"/>
+  </g>
+
+  <!-- === 海南岛小丘 === -->
+  <g fill="none" stroke="url(#g)" stroke-linejoin="round" stroke-linecap="round" opacity="0.35">
+    <path d="M560 860 l10 -18 l10 18 M576 867 l10 -18 l10 18"/>
+  </g>
+
+  <!-- ==================== 河流系统 ==================== -->
+  <!-- 黄河（几字弯 + 东流）-->
+  <path d="M300 600
+           C340 560 330 496 380 496 C446 496 446 436 478 450
+           C510 464 510 530 560 530
+           C618 530 650 478 720 478
+           C780 478 808 458 826 434"
+        fill="none" stroke="url(#g)" stroke-width="2.6" opacity="0.62" stroke-linecap="round"/>
+  <!-- 长江（西来东去）-->
+  <path d="M248 658
+           C318 672 362 704 436 688
+           C528 668 568 638 648 654
+           C728 670 768 638 820 596"
+        fill="none" stroke="url(#g)" stroke-width="2.6" opacity="0.62" stroke-linecap="round"/>
+  <!-- 珠江 -->
+  <path d="M518 792 C562 804 604 818 654 802"
+        fill="none" stroke="url(#g)" stroke-width="2" opacity="0.48" stroke-linecap="round"/>
+  <!-- 淮河 -->
+  <path d="M560 602 C614 608 666 606 720 588"
+        fill="none" stroke="url(#g)" stroke-width="1.7" opacity="0.4" stroke-linecap="round"/>
+  <!-- 黑龙江 -->
+  <path d="M760 350 C788 370 816 376 836 356"
+        fill="none" stroke="url(#g)" stroke-width="1.7" opacity="0.4" stroke-linecap="round"/>
+  <!-- 塔里木河（西） -->
+  <path d="M190 480 C240 492 276 478 296 460"
+        fill="none" stroke="url(#g)" stroke-width="1.4" opacity="0.35" stroke-linecap="round"/>
+
+  <!-- ==================== 红色游历路线（醒目） ==================== -->
+  <g fill="none" stroke="#c0392b" stroke-width="2.2" opacity="0.82"
+     stroke-dasharray="3 7" stroke-linecap="round" stroke-linejoin="round">
+    <!-- 主干线：从中土出发四向 -->
+    <path d="M500 500 C460 560 460 630 540 710 C610 772 674 790 736 768"/>
+    <path d="M500 500 C410 526 350 500 308 572"/>
+    <path d="M500 500 C500 410 510 330 514 240"/>
+    <path d="M500 500 C632 466 732 466 816 444"/>
+    <!-- 支线 -->
+    <path d="M540 710 C580 740 620 756 654 802"/>
+    <path d="M308 572 C270 610 240 640 260 680"/>
+    <path d="M514 240 C540 210 570 192 600 208"/>
+    <path d="M736 768 C768 744 796 724 810 694"/>
+  </g>
+
+  <!-- 路线上小红点标记（节点位置暗示） -->
+  <g fill="#c0392b" opacity="0.7">
+    <circle cx="540" cy="710" r="4.5"/>
+    <circle cx="308" cy="572" r="4.5"/>
+    <circle cx="514" cy="240" r="4.5"/>
+    <circle cx="816" cy="444" r="4.5"/>
+    <circle cx="654" cy="802" r="4"/>
+    <circle cx="260" cy="680" r="4"/>
+    <circle cx="600" cy="208" r="4"/>
+    <circle cx="810" cy="694" r="4"/>
+  </g>
+
+  <!-- ==================== 古建楼阁（散落点缀） ==================== -->
+  <g fill="url(#g)" opacity="0.72">
+    <!-- 中土大殿（起点附近） -->
+    <g transform="translate(480 478)">
+      <rect x="-14" y="0" width="28" height="18" rx="1"/>
+      <polygon points="-20,0 0,-14 20,0"/>
+      <line x1="-18" y1="-4" x2="18" y2="-4" stroke="#c0392b" stroke-width="1" opacity="0.6"/>
+    </g>
+    <!-- 青丘楼阁 -->
+    <g transform="translate(530 700)">
+      <rect x="-11" y="0" width="22" height="14" rx="1"/>
+      <polygon points="-16,0 0,-11 16,0"/>
+    </g>
+    <!-- 丹穴亭 -->
+    <g transform="translate(500 780)">
+      <rect x="-10" y="0" width="20" height="13" rx="1"/>
+      <polygon points="-14,0 0,-10 14,0"/>
+    </g>
+    <!-- 杻阳阁 -->
+    <g transform="translate(570 760)">
+      <rect x="-10" y="0" width="20" height="13" rx="1"/>
+      <polygon points="-14,0 0,-10 14,0"/>
+    </g>
+    <!-- 章莪城 -->
+    <g transform="translate(300 540)">
+      <rect x="-12" y="0" width="24" height="15" rx="1"/>
+      <polygon points="-17,0 0,-12 17,0"/>
+    </g>
+    <!-- 天山寺 -->
+    <g transform="translate(188 420)">
+      <rect x="-10" y="0" width="20" height="13" rx="1"/>
+      <polygon points="-14,0 0,-10 14,0"/>
+    </g>
+    <!-- 北海观 -->
+    <g transform="translate(790 440)">
+      <rect x="-11" y="0" width="22" height="14" rx="1"/>
+      <polygon points="-16,0 0,-11 16,0"/>
+    </g>
+    <!-- 钟山台 -->
+    <g transform="translate(508 228)">
+      <rect x="-11" y="0" width="22" height="14" rx="1"/>
+      <polygon points="-16,0 0,-11 16,0"/>
+    </g>
+    <!-- 邽山寨 -->
+    <g transform="translate(276 592)">
+      <rect x="-9" y="0" width="18" height="12" rx="1"/>
+      <polygon points="-13,0 0,-9 13,0"/>
+    </g>
+    <!-- 章莪西堡 -->
+    <g transform="translate(256 660)">
+      <rect x="-9" y="0" width="18" height="12" rx="1"/>
+      <polygon points="-13,0 0,-9 13,0"/>
+    </g>
+    <!-- 基山塔 -->
+    <g transform="translate(624 800)">
+      <rect x="-9" y="0" width="18" height="12" rx="1"/>
+      <polygon points="-13,0 0,-9 13,0"/>
+    </g>
+  </g>
+
+  <!-- 树木点缀（简单松树轮廓） -->
+  <g fill="none" stroke="url(#g)" stroke-width="1.2" opacity="0.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M640 620 l0 -16 m-5 5 l5 -8 l5 8 m-7 4 l7 -10 l7 10"/>
+    <path d="M660 640 l0 -14 m-4 4 l4 -7 l4 7 m-6 3 l6 -9 l6 9"/>
+    <path d="M380 680 l0 -14 m-4 4 l4 -7 l4 7 m-6 3 l6 -9 l6 9"/>
+    <path d="M720 660 l0 -14 m-4 4 l4 -7 l4 7 m-6 3 l6 -9 l6 9"/>
+    <path d="M440 640 l0 -12 m-4 3 l4 -6 l4 6 m-5 2 l5 -8 l5 8"/>
+  </g>
+
+  <!-- 海域标注 -->
+  <g fill="url(#g)" font-family="serif" letter-spacing="4">
+    <text x="858" y="558" font-size="21" opacity="0.42">东海</text>
+    <text x="556" y="908" font-size="21" opacity="0.42">南海</text>
+    <text x="116" y="468" font-size="21" opacity="0.42">西域</text>
+    <text x="146" y="318" font-size="19" opacity="0.35">漠北</text>
+    <text x="820" y="780" font-size="18" opacity="0.35">瀛洲</text>
+  </g>
+
+  <!-- 方位圆标（左上） -->
+  <g transform="translate(128 128)" opacity="0.75">
+    <circle r="32" fill="#0d0b08" fill-opacity="0.55" stroke="url(#g)" stroke-width="1.5"/>
+    <text x="0" y="-8" fill="url(#g)" font-family="serif" font-size="15" text-anchor="middle" letter-spacing="2">乾</text>
+    <text x="0" y="18" fill="url(#g)" font-family="serif" font-size="15" text-anchor="middle" letter-spacing="2">坤</text>
+  </g>
+  <!-- 方位圆标（左下） -->
+  <g transform="translate(128 864)" opacity="0.7">
+    <circle r="32" fill="#0d0b08" fill-opacity="0.55" stroke="url(#g)" stroke-width="1.5"/>
+    <text x="0" y="-8" fill="url(#g)" font-family="serif" font-size="15" text-anchor="middle" letter-spacing="2">艮</text>
+    <text x="0" y="18" fill="url(#g)" font-family="serif" font-size="15" text-anchor="middle" letter-spacing="2">兑</text>
+  </g>
+
+  <!-- 罗盘（右上） -->
+  <g transform="translate(874 128)" opacity="0.9">
+    <circle r="56" fill="#0d0b08" fill-opacity="0.6" stroke="url(#g)" stroke-width="2.2"/>
+    <circle r="44" fill="none" stroke="url(#g)" stroke-width="0.8" opacity="0.55"/>
+    <path d="M0 -50 L10 0 L0 50 L-10 0 Z" fill="url(#g)" opacity="0.92"/>
+    <path d="M-50 0 L0 -10 L50 0 L0 10 Z" fill="none" stroke="url(#g)" stroke-width="1.5" opacity="0.8"/>
+    <g fill="url(#g)" font-family="serif" font-size="17" text-anchor="middle">
+      <text x="0" y="-34">北</text>
+      <text x="0" y="46">南</text>
+      <text x="38" y="6">东</text>
+      <text x="-38" y="6">西</text>
+    </g>
+  </g>
+
+  <!-- 题署（右下竖排） -->
+  <g transform="translate(880 860)" opacity="0.88">
+    <rect x="-8" y="-8" width="52" height="84" fill="#0d0b08" fill-opacity="0.55" stroke="url(#g)" stroke-width="1.2" rx="2"/>
+    <text x="18" y="14" fill="url(#g)" font-family="serif" font-size="22" writing-mode="vertical-rl" text-anchor="start" letter-spacing="8">山海舆图</text>
+  </g>
+
+  <!-- 暗角压图 -->
+  <rect width="1000" height="1000" fill="url(#vign)"/>
 </svg>
