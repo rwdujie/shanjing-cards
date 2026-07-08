@@ -247,7 +247,7 @@
 
   // ---------- 渲染地图 ----------
   function renderMap() {
-    $("#map-bg").style.backgroundImage = "url('assets/images/map-bg-ai.png')";
+    $("#map-bg").style.backgroundImage = "url('assets/images/map-bg-shanjing.png')";
     const nodesLayer = $("#nodes");
     nodesLayer.innerHTML = "";
     $("#map-lines").innerHTML = "";
