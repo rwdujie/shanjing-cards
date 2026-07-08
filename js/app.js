@@ -125,7 +125,7 @@
   // ---------- 地图视图：全屏缩放 / 拖动 ----------
   const stage = $("#map-stage");
   const viewport = $("#map-viewport");
-  let scale = 1, tx = 0, ty = 0, baseDim = 0;
+  let scale = 1, tx = 0, ty = 0;
   const MIN_SCALE = 0.6, MAX_SCALE = 6, OVER = 160;
   const pointers = new Map();
   let last = { x: 0, y: 0 };
@@ -139,13 +139,12 @@
   }
   function sizeWorld() {
     const r = stageRect();
-    baseDim = Math.min(r.width, r.height);
-    viewport.style.width = baseDim + "px";
-    viewport.style.height = baseDim + "px";
+    viewport.style.width = r.width + "px";
+    viewport.style.height = r.height + "px";
   }
   function clampPan() {
     const r = stageRect();
-    const w = baseDim * scale, h = baseDim * scale;
+    const w = r.width * scale, h = r.height * scale;
     const minTx = Math.min(0, r.width - w) - OVER;
     const maxTx = Math.max(0, r.width - w) + OVER;
     const minTy = Math.min(0, r.height - h) - OVER;
@@ -154,10 +153,9 @@
     ty = Math.max(minTy, Math.min(maxTy, ty));
   }
   function fit() {
-    const r = stageRect();
     scale = 1;
-    tx = (r.width - baseDim) / 2;
-    ty = (r.height - baseDim) / 2;
+    tx = 0;
+    ty = 0;
     applyTransform();
   }
   function zoomAt(cx, cy, factor) {
